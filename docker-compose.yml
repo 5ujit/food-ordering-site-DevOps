@@ -1,14 +1,10 @@
-version: '3'
 services:
   web:
-    build: .
+    build:
+      context: .               # This is your root folder with Dockerfile
+      dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "3000:3000"
     volumes:
-      - .:/usr/share/nginx/html
-    networks:
-      - webnet
-
-networks:
-  webnet:
-    driver: bridge
+      - ./:/app                # Mount current folder into container
+    restart: unless-stopped

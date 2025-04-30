@@ -1,8 +1,11 @@
-# Use the official Nginx image as the base
+# Use official Nginx image
 FROM nginx:alpine
 
-# Copy all project files to the Nginx directory
+# Remove default Nginx static files
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy your static website files into Nginx's root directory
 COPY . /usr/share/nginx/html
 
-# Expose port 80 for the container
+# Expose port 80
 EXPOSE 80
