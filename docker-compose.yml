@@ -1,0 +1,14 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - .:/usr/share/nginx/html
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
