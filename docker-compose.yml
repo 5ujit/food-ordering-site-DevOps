@@ -4,7 +4,7 @@ services:
       context: .               # This is your root folder with Dockerfile
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3000:80"
     volumes:
       - ./:/app                # Mount current folder into container
     restart: unless-stopped
