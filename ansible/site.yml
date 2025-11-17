@@ -1,0 +1,47 @@
+- name: Deploy food-ordering static site
+  hosts: web
+  become: yes
+  vars:
+    project_dest: /opt/food-ordering-site
+  tasks:
+    - name: Ensure required apt packages are installed
+      apt:
+        name:
+          [
+            "apt-transport-https",
+            "ca-certificates",
+            "curl",
+            "software-properties-common",
+          ]
+        state: present
+        update_cache: yes
+
+    - name: Install Docker (Ubuntu)
+      apt:
+        name: docker.io
+        state: latest
+        update_cache: yes
+
+    - name: Ensure docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Create project directory
+      file:
+        path: "{{ project_dest }}"
+        state: directory
+        owner: "{{ ansible_user | default('ubuntu') }}"
+
+    - name: Copy site files to remote host
+      synchronize:
+        src: .
+        dest: "{{ project_dest }}"
+        delete: yes
+      delegate_to: localhost
+
+    - name: Start site with docker-compose
+      community.docker.docker_compose:
+        project_src: "{{ project_dest }}"
+        restarted: yes

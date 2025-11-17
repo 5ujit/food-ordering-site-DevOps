@@ -1,0 +1,9 @@
+node_modules
+.git
+*.md
+Dockerfile
+docker-compose.yml
+/.github
+/.vscode
+ansible/
+terraform/
